@@ -83,7 +83,7 @@ defmodule Doublets.SolverTest do
              ]
   end
 
-  test "distance words" do
+  test "distance words" do #! solo funciona para palabras de la misma cantidad de letras
     assert Doublets.Solver.distance("gallinas", "gelatina") == 6
     assert Doublets.Solver.distance("halurgist", "hugeously") == 8
     assert Doublets.Solver.distance("animalito", "animalita") == 1
