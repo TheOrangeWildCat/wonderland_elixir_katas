@@ -63,8 +63,7 @@ defmodule FoxGooseBagOfCorn.Puzzle do
   def next_move([[l, c, r] | ls] = plan, from: a, to: b) do
     valid_element =
       move([l, c, r], from: a, to: b)
-      # |> IO.inspect()
-      |> Enum.map(&Enum.map(&1, fn mov -> Enum.uniq(mov) end))
+      |> IO.inspect()
       |> Enum.filter(&is_valid/1)
       |> Enum.filter(fn elem -> elem not in plan end)
 
@@ -90,24 +89,27 @@ defmodule FoxGooseBagOfCorn.Puzzle do
     Enum.map(l, fn a ->
       [l -- [:you, a], c ++ [:you, a], r]
     end)
-
+    |> Enum.map(&Enum.map(&1, fn mov -> Enum.uniq(mov) end))
   end
 
   def move([l, c, r], from: :right, to: :center) do
     Enum.map(r, fn a ->
       [l, c ++ [:you, a], r -- [:you, a]]
     end)
+    |> Enum.map(&Enum.map(&1, fn mov -> Enum.uniq(mov) end))
   end
 
   def move([l, c, r], from: :center, to: :left) do
     Enum.map(c -- [:boat], fn a ->
       [l ++ [:you, a], c -- [:you, a], r]
     end)
+    |> Enum.map(&Enum.map(&1, fn mov -> Enum.uniq(mov) end))
   end
 
   def move([l, c, r], from: :center, to: :right) do
     Enum.map(c -- [:boat], fn a ->
       [l, c -- [:you, a], r ++ [:you, a]]
     end)
+    |> Enum.map(&Enum.map(&1, fn mov -> Enum.uniq(mov) end))
   end
 end

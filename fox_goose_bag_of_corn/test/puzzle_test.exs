@@ -3,6 +3,32 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
   doctest FoxGooseBagOfCorn.Puzzle
   import FoxGooseBagOfCorn.Puzzle
 
+  moves = [
+    {":fox, :goose at left",[], [:boat, :you, :corn], [:fox, :goose], :false},
+    {":corn, :goose at left",[], [:boat, :you, :fox], [:corn, :goose], :false},
+    {"not human at left",[], [:boat, :you], [:corn, :fox, :goose], :false},
+    {"everything ok at left",[], [:boat, :you, :goose], [:corn, :fox], :true},
+    {":fox, :goose at right",[:fox, :goose], [:boat, :you, :corn], [], :false},
+    {":corn, :goose at right",[:corn, :goose], [:boat, :you, :fox], [], :false},
+    {"no human at right",[:corn, :fox, :goose], [:boat, :you], [], :false},
+    {"everything ok at right",[:corn, :fox], [:boat, :you, :goose], [], :true},
+    {"boat overload", [:corn], [:boat, :you, :fox, :goose], [], :false}
+  ]
+
+  for {p, l, c, r, is_ok?} <- moves do
+    @prove p
+    @left l
+    @center c
+    @right r
+    @status is_ok?
+
+
+    test "The moveset condition #{@prove} is OK? #{@status}" do
+      # Change test implementation
+      assert FoxGooseBagOfCorn.Puzzle.is_valid([@left,@center,@right]) == @status
+    end
+  end
+
   def validate_move(new_step, prev_step) do
     diff1 = Set.difference(prev_step, new_step)
     diff2 = Set.difference(new_step, prev_step)
@@ -89,17 +115,11 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
              [[:goose, :corn], [:boat, :you, :fox], []],
              [[:fox, :corn], [:boat, :you, :goose], []],
              [[:fox, :goose], [:boat, :you, :corn], []],
-             [[:fox, :goose, :corn], [:boat, :you, :you], []]
+             [[:fox, :goose, :corn], [:boat, :you], []]
            ]
   end
 
-  test "Invalid movement [:fox, :goose] at right " do
-    assert FoxGooseBagOfCorn.Puzzle.is_valid([[], [:boat, :you, :corn], [:fox, :goose]]) == false
-  end
 
-  test "Invalid movement [:corn, :goose] at right " do
-    assert FoxGooseBagOfCorn.Puzzle.is_valid([[], [:boat, :you, :fox], [:corn, :goose]]) == false
-  end
 
   test "Moves left to boat" do
     assert FoxGooseBagOfCorn.Puzzle.move([[:fox, :corn, :you], [:boat], [:goose]],
@@ -108,7 +128,7 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
            ) == [
              [[:corn], [:boat, :you, :fox], [:goose]],
              [[:fox], [:boat, :you, :corn], [:goose]],
-             [[:fox, :corn], [:boat, :you, :you], [:goose]]
+             [[:fox, :corn], [:boat, :you], [:goose]]
            ]
   end
 
@@ -117,9 +137,9 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
              from: :right,
              to: :center
            ) == [
-            [[:goose, :you], [:boat, :you, :corn], [:fox]],
-            [[:goose, :you], [:boat, :you, :fox], [:corn]]
-          ]
+             [[:goose, :you], [:boat, :you, :corn], [:fox]],
+             [[:goose, :you], [:boat, :you, :fox], [:corn]]
+           ]
   end
 
   test "Movement boat to right " do
@@ -127,7 +147,7 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
              from: :center,
              to: :right
            ) == [
-             [[:corn, :fox], [:boat, :goose], [:you, :you]],
+             [[:corn, :fox], [:boat, :goose], [:you]],
              [[:corn, :fox], [:boat], [:you, :goose]]
            ]
   end
@@ -137,6 +157,6 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
              from: :center,
              to: :left
            ) ==
-             [[[:goose, :you, :you], [:boat], [:corn, :fox]]]
+             [[[:goose, :you], [:boat], [:corn, :fox]]]
   end
 end
