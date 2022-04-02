@@ -4,14 +4,14 @@ defmodule FoxGooseBagOfCorn.PuzzleTest do
   import FoxGooseBagOfCorn.Puzzle
 
   moves = [
-    {":fox, :goose at left",[], [:boat, :you, :corn], [:fox, :goose], :false},
-    {":corn, :goose at left",[], [:boat, :you, :fox], [:corn, :goose], :false},
-    {"not human at left",[], [:boat, :you], [:corn, :fox, :goose], :false},
-    {"everything ok at left",[], [:boat, :you, :goose], [:corn, :fox], :true},
-    {":fox, :goose at right",[:fox, :goose], [:boat, :you, :corn], [], :false},
-    {":corn, :goose at right",[:corn, :goose], [:boat, :you, :fox], [], :false},
-    {"no human at right",[:corn, :fox, :goose], [:boat, :you], [], :false},
-    {"everything ok at right",[:corn, :fox], [:boat, :you, :goose], [], :true},
+    {":fox, :goose at right",[], [:boat, :you, :corn], [:fox, :goose], :false},
+    {":corn, :goose at right",[], [:boat, :you, :fox], [:corn, :goose], :false},
+    {"not human at right party for fox",[], [:boat, :you], [:corn, :fox, :goose], :false},
+    {"everything ok at right",[], [:boat, :you, :goose], [:corn, :fox], :true},
+    {":fox, :goose at left",[:fox, :goose], [:boat, :you, :corn], [], :false},
+    {":corn, :goose at left",[:corn, :goose], [:boat, :you, :fox], [], :false},
+    {"no human at left party for fox",[:corn, :fox, :goose], [:boat, :you], [], :false},
+    {"everything ok at left",[:corn, :fox], [:boat, :you, :goose], [], :true},
     {"boat overload", [:corn], [:boat, :you, :fox, :goose], [], :false}
   ]
 
